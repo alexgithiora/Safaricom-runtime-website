@@ -45,10 +45,10 @@ canvas {
         }
 
         // Update canvas height based on breakpoint
-        if (browserWidth >= 500) {
-            canvas.style.height = '500px'; // wide height
-        } else {
-            canvas.style.height = '500'; // skinny height
+       // if (browserWidth >= 500) {
+            //canvas.style.height = '500px'; // wide height
+       // } else {
+            //canvas.style.height = '500'; // skinny height
         }
 
         // Ensure Rive redraws on canvas resize
@@ -59,10 +59,10 @@ canvas {
 
      // Initialize Rive
      riveInstance = new rive.Rive({
-        src: 'safaricom_runtime_ads.riv', // Ensure this file name is correct
+        src: 'Internet.riv', // Ensure this file name is correct
         canvas: document.getElementById('riveCanvas'),
         autoplay: true,
-        artboard: 'SRA', // Ensure this artboard name is correct
+        artboard: 'Internet', // Ensure this artboard name is correct
         stateMachines: 'SM1', // Ensure this state machine name is correct
         onLoad: () => {
             const inputs = riveInstance.stateMachineInputs('SM1'); // Ensure this state machine name is correct
