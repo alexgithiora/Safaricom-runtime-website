@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Rive Animation</title>
+<style>
+body, html {
+
+    margin: 0;
+    font-size: 0px;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto;   /* Allow vertical scrolling */
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+canvas {
+    width: 4000px; /* Set canvas width manually */
+    margin: 0 auto; /* Center the canvas horizontally */
+    display: block; /* Ensure proper centering */
+}
+</style>
+<script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+</head>
+<body>
+<canvas id="riveCanvas"></canvas>
+<div id="widthDisplay"></div>
+<script>
+    let riveInstance, widthNumInput;
+
+    function updateCanvasHeight() {
+        const browserWidth = window.innerWidth;
+        const canvas = document.getElementById('riveCanvas');
+        const widthDisplay = document.getElementById('widthDisplay');
+
+        widthDisplay.innerText = browserWidth + ' px';
+
+        // Update Rive input if available
+        if (widthNumInput) {
+            widthNumInput.value = browserWidth;
+        }
+
+        // Update canvas height based on breakpoint
+        if (browserWidth >= 500) {
+            canvas.style.height = '500px'; // wide height
+        } else {
+            canvas.style.height = '500'; // skinny height
+        }
+
+        // Ensure Rive redraws on canvas resize
+        if (riveInstance) {
+            riveInstance.resizeDrawingSurfaceToCanvas();
+        }
+    }
+
+     // Initialize Rive
+     riveInstance = new rive.Rive({
+        src: 'safaricom_runtime_ads.riv', // Ensure this file name is correct
+        canvas: document.getElementById('riveCanvas'),
+        autoplay: true,
+        artboard: 'SRA', // Ensure this artboard name is correct
+        stateMachines: 'SM1', // Ensure this state machine name is correct
+        onLoad: () => {
+            const inputs = riveInstance.stateMachineInputs('SM1'); // Ensure this state machine name is correct
+           // widthNumInput = inputs.find(i => i.name === 'width_num'); // Ensure this input name is correct
+            riveInstance.resizeDrawingSurfaceToCanvas();
+
+            // Update canvas height on load and resize
+            updateCanvasHeight();
+            window.onresize = updateCanvasHeight;
+        }
+    });
+</script>
+</body>
+</html>
+
+
