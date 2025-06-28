@@ -62,9 +62,12 @@ canvas {
         src: 'internet.riv', // Ensure this file name is correct
         canvas: document.getElementById('riveCanvas'),
         autoplay: true,
+         autobind: true,
         artboard: 'Internet', // Ensure this artboard name is correct
         stateMachines: 'SM1', // Ensure this state machine name is correct
         onLoad: () => {
+            const vmi = r.viewModelInstance
+            vmi.number('KES_num').value = 1000
             const inputs = riveInstance.stateMachineInputs('SM1'); // Ensure this state machine name is correct
            // widthNumInput = inputs.find(i => i.name === 'width_num'); // Ensure this input name is correct
             riveInstance.resizeDrawingSurfaceToCanvas();
