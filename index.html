@@ -1,82 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Rive Animation</title>
-<style>
-body, html {
+  <meta charset="utf-8" />
+  <title>Rive Button</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    margin: 0;
-    font-size: 0px;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    overflow-y: auto;   /* Allow vertical scrolling */
-
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-canvas {
-    width: 4000px; /* Set canvas width manually */
-    margin: 0 auto; /* Center the canvas horizontally */
-    display: block; /* Ensure proper centering */
-}
-</style>
-<script src="https://unpkg.com/@rive-app/webgl2"></script>
-</head>
-<body>
-<canvas id="riveCanvas"></canvas>
-<div id="widthDisplay"></div>
-<script>
-    let riveInstance, widthNumInput;
-
-    function updateCanvasHeight() {
-        const browserWidth = window.innerWidth;
-        const canvas = document.getElementById('riveCanvas');
-        const widthDisplay = document.getElementById('widthDisplay');
-
-        widthDisplay.innerText = browserWidth + ' px';
-
-        // Update Rive input if available
-        if (widthNumInput) {
-            widthNumInput.value = browserWidth;
-        }
-
-        // Update canvas height based on breakpoint
-        if (browserWidth >= 600) {
-            canvas.style.height = '600px'; // wide height
-        } else {
-            canvas.style.height = '600'; // skinny height
-        }
-
-        // Ensure Rive redraws on canvas resize
-        if (riveInstance) {
-            riveInstance.resizeDrawingSurfaceToCanvas();
-        }
+  <!-- 1. Page-level styling -->
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
     }
+    /* Flexbox centres everything in the viewport */
+    body {
+      display: flex;
+      justify-content: center;  /* horizontal centring */
+      align-items: center;      /* vertical centring */
+      background: #ffffff;  
+    }
+    /* Let the canvas scale responsively if you prefer */
+    canvas {
+      width: 600px;
+    }
+  </style>
 
-     // Initialize Rive
-     riveInstance = new rive.Rive({
-        src: 'internet.riv', // Ensure this file name is correct
-        canvas: document.getElementById('riveCanvas'),
-        autoplay: true,
-         autoBind: true,
-        artboard: 'Internet', // Ensure this artboard name is correct
-        stateMachines: 'SM1', // Ensure this state machine name is correct
-        onLoad: () => {
-            const inputs = riveInstance.stateMachineInputs('SM1'); // Ensure this state machine name is correct
-           // widthNumInput = inputs.find(i => i.name === 'width_num'); // Ensure this input name is correct
-            riveInstance.resizeDrawingSurfaceToCanvas();
+  <!-- 2. Latest Rive runtime  -->
+  <script src="https://unpkg.com/@rive-app/webgl2"></script>
+  
+</head>
 
-            // Update canvas height on load and resize
-            updateCanvasHeight();
-            window.onresize = updateCanvasHeight;
-        }
+<body>
+  <!-- 3. Canvas placeholder -->
+  <canvas id="rive-canvas" width="500" height="500"></canvas>
+
+  <!-- 4. Initialise Rive -->
+  <script>
+    const r = new rive.Rive({
+      src: 'internet.riv',
+      canvas: document.getElementById('rive-canvas'),
+      autoplay: true,
+      autoBind: true,
+      artboard: 'Basigo', 
+      stateMachines: 'SM1',
+
+      onLoad: () => {
+
+        r.resizeDrawingSurfaceToCanvas()
+      }
     });
-</script>
+
+
+    // Keep things sharp if the window is resized
+    window.addEventListener('resize', () =>
+      r.resizeDrawingSurfaceToCanvas()
+    );
+  </script>
 </body>
 </html>
-
-
