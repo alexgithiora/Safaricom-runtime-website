@@ -45,6 +45,9 @@
 
       onLoad: () => {
 
+        const vmi = r.viewModelInstance
+        vmi.number('KES_num').value = 1000
+
         r.resizeDrawingSurfaceToCanvas()
       }
     });
